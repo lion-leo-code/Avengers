@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.body_background 
+{
+    background-image: URL("avenger_bg.jpg");
+    background-position: center;
+    background-size: cover;
+}
+#myCanvas
+{
+    overflow: hidden;
+    border-width:10px; 
+    border-style:ridge;
+}
+
+h1
+{
+	border-radius: 10px;
+	width: 210px;
+	padding: 5px;
+ }
+h3
+{
+	display: inline-block;
+}
+span
+{
+	color: white !important;	
+}
+a
+{
+	text-decoration: none;
+	font-size: 20px;
+	padding: 10px;
+    float: left;
+    border-radius: 10px;
+}
+#head_info
+{
+	width: 600px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+</style>
+<title>AVENGERS</title>
+<script src="fabric.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<body class="body_background">
+	<center>
+    
+        <h1 class="btn-primary">AVENGERS</h1>
+
+	<div id="head_info" class="btn-danger">
+		<h3>Current Width  = <span id="figure_width">30</span></h3>
+		<h3>Current Height  = <span id="figure_height">30</span></h3>
+    </div>
+    
+    <canvas height="1000" width="1519" id="myCanvas"></canvas>
+	</center>
+	<script>
+        var canvas = new fabric.Canvas('myCanvas');
+        playerX = 10;
+        playerY = 10;
+        var player_object = "";
+        figure = "";
+        figureheight = 30;
+        figurewidth = 30;
+        function playerUpdate(){
+            fabric.Image.fromURL("player.png", function(Img){
+                player_object = Img;
+
+                player_object.scaleToWidth(150);
+                player_object.scaleToHeight(140);
+                player_object.set({
+                        top:playerY,
+                        left:playerX
+                });
+                canvas.add(player_object);
+            });
+        }
+        function newImage(getImage){
+            fabric.Image.fromURL(getImage, function(Img){
+                figure = Img;
+                figure.scaleToWidth(figurewidth);                        //ERROR! figure.scaleToWidth is NOT a function
+                figure.scaleToHeight(figureheight);
+                figure.set({
+                        top:playerY,
+                        left:playerX
+                });
+                canvas.add(figure);
+            });
+        }
+    window.addEventListener("keydown", my_keydown);
+    function my_keydown(e){
+        keyPressed = e.keyCode;
+        console.log(keyPressed);
+
+        if(keyPressed == '107'){    
+                console.log("Increase size by 10");
+                figureheight = figureheight + 10;
+                figurewidth = figurewidth + 10;
+                document.getElementById("figure_width").innerHTML = figurewidth;
+                document.getElementById("figure_height").innerHTML = figureheight;
+            }  
+
+            if(keyPressed == '109'){    
+                console.log("Deccrease size by 10");
+                figureheight = figureheight - 10;
+                figurewidth = figurewidth - 10;
+                document.getElementById("figure_width").innerHTML = figurewidth;
+                document.getElementById("figure_height").innerHTML = figureheight;
+            }  
+
+        if(keyPressed == '38'){
+                up();
+                console.log("UP");
+            }
+
+            if(keyPressed == '40'){
+                down();
+                console.log("DOWN");
+            }
+
+            if(keyPressed == '37'){
+                left();
+                console.log("LEFT");
+            }
+
+            if(keyPressed == '39'){
+                right();
+                console.log("RIGHT");
+            }
+            if(keyPressed == '70'){
+                newImage('ironman_face.png');
+                console.log("Face");
+            }
+            if(keyPressed == '66'){
+                newImage('hulkd_body.png');
+                console.log("Body");
+            }
+            if(keyPressed == '76'){
+                newImage('spiderman_legs.png');
+                console.log("Legs");
+            }
+            if(keyPressed == '82'){
+                newImage('thor_right_hand.png');
+                console.log("Right Hand");
+            }
+            if(keyPressed == '72'){
+                newImage('captain_america_left_hand.png');
+                console.log("Left Hand");
+            }
+        }
+        
+        function up(){
+            if(playerY >=30){
+                playerY = playerY - figureheight;
+                console.log("Figureheight = " + figureheight);
+                console.log("Up; X = " + playerX + "Y = " + playerY);
+                canvas.remove(player_object);
+                playerUpdate();
+            }
+        }
+        function down(){
+            if(playerY <=800){
+                playerY = playerY + figureheight;
+                console.log("Figureheight = " + figureheight);
+                console.log("Down; X = " + playerX + "Y = " + playerY);
+                canvas.remove(player_object);
+                playerUpdate();
+            }
+        }
+        function left(){
+            if(playerX >5){
+                playerX = playerX - figurewidth;
+                console.log("Figurewidth = " + figurewidth);
+                console.log("Left; X = " + playerX + "Y = " + playerY);
+                canvas.remove(player_object);
+                playerUpdate();
+            }
+        }
+        function right(){
+            if(playerX <=1350){
+                playerX = playerX + figurewidth;
+                console.log("Figurewidth = " + figurewidth);
+                console.log("Right; X = " + playerX + "Y = " + playerY);
+                canvas.remove(player_object);
+                playerUpdate();
+            }
+        }
+    </script>
+</body>
+</html>
